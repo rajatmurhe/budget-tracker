@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flask Budget Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>💰 Budget Tracker</h2>
+    <div class="balance">Balance: ₹{{ balance }}</div>
+
+    <form method="POST">
+      <input type="text" name="desc" placeholder="Description (e.g. Freelance)" required>
+      <input type="number" name="amount" step="any" placeholder="Amount (+/-)" required>
+      <button type="submit">Add Transaction</button>
+    </form>
+
+    <ul>
+      {% for tx in transactions %}
+        <li class="{{ 'income' if tx.amount >= 0 else 'expense' }}">
+          {{ tx.desc }} <span>₹{{ tx.amount }}</span>
+          <a href="/delete/{{ loop.index0 }}">❌</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
